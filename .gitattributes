@@ -1,2 +1,85 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+class Player:  # a class to store wins for each player.
+    def __init__(self, wins: int):  # define the class variables.
+        self.wins = wins
+
+    def add_win(self):  # a function to add a point to whoever won.
+        self.wins += 1
+        return self
+
+
+def check_points(added):  # a function to check if user input is between (1-10).
+    try:  # using Try to handle errors ie if user input is str and expected input is int.
+        added = int(added)
+    except ValueError:
+        print("what do you mean ?")
+        return "?"  # I return strings for the main game to pass the input.
+    if 10 >= int(added) >= 1:
+        return "pass"  # "pass" is the key continue the game.
+    # there is probably a better way :).
+    elif int(added) > 10:
+        print("Too high")
+    elif int(added) < 1:
+        print("too low")
+
+
+def game():  # the main game
+    points = 0
+    while points < 100:
+        turn = None  # turn identifies who was the last player to play.
+        added = input("Player 1 choose number of points(1-10) : ")
+        while True:
+            check = check_points(added)
+            if check == "pass":  # as I said before using "pass" as a key.
+                break
+            else:
+                added = input("Player 1 choose number of points(1-10) : ")
+        turn = "player 1"
+        points += int(added)
+        print(f"points = {points}")  # showing the total points for the players.
+        if points >= 100:  # this is to stop the loop from continuing if player 1 finished the game
+            break
+        added = input("Player 2 choose number of points(1-10) : ")
+        while True:
+            check = check_points(added)
+            if check == "pass":
+                break
+            else:
+                added = input("Player 2 choose number of points(1-10) : ")
+        turn = "player 2"
+        points += int(added)
+        print(f"points = {points}")
+    if points == 100:  # if statements to identify the winner
+        if turn == "player 1":  # this means that player 1 had the last turn
+            print("player 1 wins")
+            player_1.add_win()  # player 1 won = add a point
+            print(f"player 1 has {player_1.wins} wins and player 2 has {player_2.wins} wins")
+        elif turn == "player 2":
+            print("player 2 wins")
+            player_2.add_win()
+            print(f"player 1 has {player_1.wins} wins and player 2 has {player_2.wins} wins")
+    elif points > 100:
+        # if the last player added a wrong number and the total passed 100 points = the other player won.
+        if turn == "player 1":  # so if turn equals a player the other player will win.
+            print("player 2 wins")
+            player_2.add_win()
+            print(f"player 1 has {player_1.wins} wins and player 2 has {player_2.wins} wins")
+        elif turn == "player 2":
+            print("player 1 wins")
+            player_1.add_win()
+            print(f"player 1 has {player_1.wins} wins and player 2 has {player_2.wins} wins")
+
+
+player_1 = Player(0)  # starting with 0 wins for each player.
+player_2 = Player(0)
+print("welcome to the 100 game")
+while True:
+    choose = input("choose if you want to play (P) or quit (Q) : ").upper()
+    if choose == "Q":
+        quit("Good Bye")
+    elif choose == "P":
+        game()  # if choose is equal p (play) it will run the game.
+    else:
+        print("what does that mean ? ")
+
